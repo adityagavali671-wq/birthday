@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  background:linear-gradient(135deg,#ffb6c1,#ff69b4);
+  overflow:hidden;
+}
+
+.slide{
+  display:none;
+  height:100vh;
+  width:100%;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+  color:white;
+}
+
+.slide.active{
+  display:flex;
+  animation:fadeSlide 1.2s ease;
+}
+
+.card{
+  background:rgba(255,255,255,0.18);
+  padding:35px 25px;
+  border-radius:25px;
+  max-width:380px;
+  width:100%;
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+h1{
+  font-size:2.4rem;
+  margin-bottom:15px;
+}
+
+p{
+  font-size:1.1rem;
+  line-height:1.7;
+  margin-bottom:22px;
+}
+
+button{
+  padding:14px 35px;
+  border:none;
+  border-radius:30px;
+  background:#ff2f92;
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(0.95);
+}
+
+/* Animations */
+@keyframes fadeSlide{
+  from{opacity:0;transform:translateY(50px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* Flowers */
+.flowers span{
+  font-size:2.6rem;
+  margin:8px;
+  display:inline-block;
+  animation:float 3s infinite ease-in-out;
+}
+
+.flowers span:nth-child(2){animation-delay:.5s;}
+.flowers span:nth-child(3){animation-delay:1s;}
+.flowers span:nth-child(4){animation-delay:1.5s;}
+
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
+  100%{transform:translateY(0);}
+}
+
+/* Photo Slide */
+.photos{
+  display:flex;
+  gap:15px;
+  justify-content:center;
+  margin-bottom:20px;
+}
+
+.photos img{
+  width:90px;
+  height:120px;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(255,105,180,0.8);
+  animation:photoPop 1.2s ease;
+}
+
+.photos img:nth-child(2){animation-delay:.3s;}
+.photos img:nth-child(3){animation-delay:.6s;}
+
+@keyframes photoPop{
+  from{opacity:0;transform:scale(.8);}
+  to{opacity:1;transform:scale(1);}
+}
+
+/* Confetti */
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<audio id="song">
+  <source src="Song.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Slide 1 -->
+<div class="slide active">
+  <div class="card">
+    <h1>🎀 Happy Birthday 🎀</h1>
+    <p>
+      Today is not just special…  
+      it’s magical 💕
+    </p>
+    <button onclick="nextSlide()">Next 💖</button>
+  </div>
+</div>
+
+<!-- Slide 2 -->
+<div class="slide">
+  <div class="card">
+    <h1>💌 A Special Message</h1>
+    <p>
+      You bring light, warmth,  
+      and smiles wherever you go ✨
+    </p>
+    <button onclick="nextSlide()">Next 🌸</button>
+  </div>
+</div>
+
+<!-- Slide 3 -->
+<div class="slide">
+  <div class="card">
+    <h1>🎶 Birthday Song</h1>
+    <p>
+      Turn the volume up  
+      and feel the moment 🎧
+    </p>
+    <button onclick="playSong()">Play Song ▶️</button><br><br>
+    <button onclick="nextSlide()">Next 🎵</button>
+  </div>
+</div>
+
+<!-- Slide 4 -->
+<div class="slide">
+  <div class="card">
+    <h1>🌷 Flowers for You</h1>
+    <div class="flowers">
+      <span>🌸</span><span>🌷</span><span>🌺</span><span>💐</span>
+    </div>
+    <p>
+      Because beautiful souls  
+      deserve beautiful flowers 💖
+    </p>
+    <button onclick="nextSlide()">Next 🌹</button>
+  </div>
+</div>
+
+<!-- Slide 5 (PHOTOS) -->
+<div class="slide">
+  <div class="card">
+    <h1>📸 Beautiful Moments</h1>
+    <div class="photos">
+      <img src="photo1.jpg">
+      <img src="photo2.jpg">
+      <img src="photo3.jpg">
+    </div>
+    <p>
+      Every smile here  
+      is a memory worth keeping 💕
+    </p>
+    <button onclick="nextSlide()">Next ✨</button>
+  </div>
+</div>
+
+<!-- Slide 6 (Final) -->
+<div class="slide">
+  <div class="card">
+    <h1>🎉 A Beautiful Beginning</h1>
+    <p>
+      May this year bring happiness,  
+      peace and dreams coming true ✨  
+      Always stay this amazing 💖
+    </p>
+    <button onclick="startConfetti()">Celebrate 🎊</button>
+  </div>
+</div>
+
+<script>
+let slides=document.querySelectorAll(".slide");
+let index=0;
+
+function nextSlide(){
+  slides[index].classList.remove("active");
+  index++;
+  slides[index].classList.add("active");
+}
+
+function playSong(){
+  const song=document.getElementById("song");
+  song.currentTime=0;
+  song.play();
+}
+
+/* Confetti */
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let confetti=[];
+
+function randColor(){
+  const c=["#ff2f92","#ff69b4","#ffc0cb","#ffd1dc"];
+  return c[Math.floor(Math.random()*c.length)];
+}
+
+function create(){
+  return{
+    x:Math.random()*canvas.width,
+    y:Math.random()*canvas.height-canvas.height,
+    r:Math.random()*6+4,
+    d:Math.random()*15+5,
+    color:randColor()
+  };
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach((c,i)=>{
+    ctx.beginPath();
+    ctx.fillStyle=c.color;
+    ctx.arc(c.x,c.y,c.r,0,Math.PI*2);
+    ctx.fill();
+    c.y+=c.d*0.3;
+    if(c.y>canvas.height){
+      confetti[i]=create();
+      confetti[i].y=-10;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+
+function startConfetti(){
+  confetti=[];
+  for(let i=0;i<220;i++) confetti.push(create());
+  draw();
+}
+</script>
+
+</body>
+</html>
